@@ -1,0 +1,68 @@
+- require 'uri'
+doctype html
+html
+  head
+    meta charset="utf-8"
+    title flFeed
+    meta content="width=device-width, initial-scale=1.0" name="viewport"
+    link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+    script src="//code.jquery.com/jquery-1.11.0.min.js"
+    script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"
+    style
+      | a{color:#333}
+    /link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"
+  body
+    .container
+      .header
+        /ul.nav.nav-pills.pull-right
+          li
+            a href="#"
+        h3.text-muted flFeed
+    .container
+      .col-lg-12
+        ul.list-inline
+          li All #{Project.count}
+          li
+            ' Weblancer #{Project.weblancer.count}
+            strong #{(Project.weblancer.count/Project.count.to_f*100).to_i}%
+          li
+            ' Fl #{Project.fl.count}
+            strong #{(Project.fl.count/Project.count.to_f*100).to_i}%
+          li
+            ' Freelansim #{Project.freelansim.count}
+            strong #{(Project.freelansim.count/Project.count.to_f*100).to_i}%
+
+        h2 Total #{@total}
+
+        - @projects.each do |p|
+          - domain = URI.parse(p.uri).host
+          h3
+            a data-toggle="collapse" href="##{p.id}"
+              ' #{p.title}
+            - if p.budget_amount
+              span class="label label-default"
+                | #{p.budget_amount} #{p.budget_currency}
+          /span.label.label-default => domain
+          div id="#{p.id}" class="collapse"
+            p
+              a href="#{p.uri}"
+                = p.uri
+            - if p.uri['fl.ru']
+              p
+                pre
+                  = p.body
+            - else
+              p == p.body
+            ul.list.list-inline
+              li = p.category
+              li
+                => (Time.now-p.published).to_i/60/60
+                ' hours ago
+
+        == will_paginate @projects, renderer: BootstrapPagination::Sinatra
+      .row
+        .col-md-12
+          a.btn.btn-default href="/?#{Random.rand(9999)}" Reload
+      .footer
+        p = Time.now - @start_at
+
