@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20140723122646) do
 
-  create_table "projects", force: true do |t|
+  create_table "projects", force: :cascade do |t|
     t.integer  "remote_id"
     t.integer  "site"
     t.string   "title"
