@@ -11,6 +11,12 @@ require 'kronic'
 register Sinatra::ActiveRecordExtension
 register WillPaginate::Sinatra
 
+if ENV['U']
+  use Rack::Auth::Basic, "Protected Area" do |username, password|
+    username == ENV['U'] && password == ENV['P']
+  end
+end
+
 ActiveRecord::Base.logger = nil
 
 set :database, {adapter: "sqlite3", database: "flparser.sqlite3"}

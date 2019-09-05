@@ -29,7 +29,12 @@ projects = RFSP::Freelansim.parse_rss
 print "freelansim"
 projects.each do |p|
   next if Project.where(remote_id: p.id, site: 3).first
-  RFSP::Freelansim.parse_page p
+  begin
+    RFSP::Freelansim.parse_page p
+  rescue => e
+    puts "#{p.uri} #{e.class} #{e.message}"
+    next
+  end
   Project.create_from_parsed_data p, 3
   i += 1
 end

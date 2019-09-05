@@ -5,9 +5,9 @@ html
     meta charset="utf-8"
     title flFeed
     meta content="width=device-width, initial-scale=1.0" name="viewport"
-    link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
-    script src="//code.jquery.com/jquery-1.11.0.min.js"
-    script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"
+    link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    script src="//code.jquery.com/jquery-1.12.4.min.js"
+    script src="//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
     style
       | a{color:#333}
     /link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"
@@ -40,7 +40,7 @@ html
             a data-toggle="collapse" href="##{p.id}"
               ' #{p.title}
             - if p.budget_amount
-              span class="label label-default"
+              span class="label label-default btn-xs"
                 | #{p.budget_amount} #{p.budget_currency}
           /span.label.label-default => domain
           div id="#{p.id}" class="collapse"
@@ -48,9 +48,7 @@ html
               a href="#{p.uri}"
                 = p.uri
             - if p.uri['fl.ru']
-              p
-                pre
-                  = p.body
+              p == p.body.gsub("\n", '<br>')
             - else
               p == p.body
             ul.list.list-inline
