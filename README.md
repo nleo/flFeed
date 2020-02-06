@@ -8,3 +8,8 @@
 
     $ ruby load_projects.rb 1 # - запустить парсер rss
     $ ruby app.rb # - запуск сервера http://localhost:4567/
+
+## Install
+
+    sudo apt-get install libcurl4-openssl-dev
+    bundle install
